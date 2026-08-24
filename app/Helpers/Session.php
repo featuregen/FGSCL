@@ -186,7 +186,7 @@ class Session
         session_regenerate_id(false);
         
         self::set('user_id', (int)$user['id']);
-        self::set('user_role', $user['role_slug']);
+        self::set('user_role', $user['role_slug'] ?? $user['user_type'] ?? 'unknown');
         self::set('school_id', $user['school_id'] ? (int)$user['school_id'] : null);
         self::set('user_data', $user);
         self::set('permissions', $permissions);
