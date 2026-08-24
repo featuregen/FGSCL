@@ -19,7 +19,13 @@ class Session
             ini_set('session.cookie_httponly', '1');
             ini_set('session.use_strict_mode', '1');
             ini_set('session.cookie_samesite', 'Lax');
+            ini_set('session.cookie_path', '/');
             ini_set('session.gc_maxlifetime', (string)SESSION_LIFETIME);
+            
+            // Enable secure cookies on HTTPS
+            if (APP_ENV === 'production' || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')) {
+                ini_set('session.cookie_secure', '1');
+            }
             
             session_name(SESSION_NAME);
             session_start();
