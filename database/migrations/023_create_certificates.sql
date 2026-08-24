@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS issued_certificates (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, user_id INT, type VARCHAR(100), issue_date DATE, reference_no VARCHAR(100));

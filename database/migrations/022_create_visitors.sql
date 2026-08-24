@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS visitor_logs (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, name VARCHAR(100), phone VARCHAR(20), purpose VARCHAR(200), to_meet VARCHAR(100), in_time DATETIME, out_time DATETIME);

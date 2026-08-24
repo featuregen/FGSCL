@@ -1,0 +1,45 @@
+# Environment
+.env
+.env.local
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Storage
+/storage/logs/*
+/storage/cache/*
+/storage/temp/*
+/storage/exports/*
+!storage/logs/.gitkeep
+!storage/cache/.gitkeep
+!storage/temp/.gitkeep
+!storage/exports/.gitkeep
+
+# Uploads
+/public/uploads/*
+!public/uploads/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Composer
+composer.lock
+
+# Mobile
+/mobile/node_modules/
+/mobile/.expo/
+/mobile/android/
+/mobile/ios/
+
+# Temp/Test files
+test_*.html
+test_*.php
+fix_*.php
+run_*.php
+generate_*.php

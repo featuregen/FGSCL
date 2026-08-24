@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS library_books (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, title VARCHAR(200), author VARCHAR(200), isbn VARCHAR(50), qty INT DEFAULT 1, available INT DEFAULT 1);
+CREATE TABLE IF NOT EXISTS library_issues (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, book_id INT, user_id INT, issue_date DATE, due_date DATE, return_date DATE, status ENUM('issued', 'returned', 'overdue') DEFAULT 'issued');

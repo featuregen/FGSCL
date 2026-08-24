@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS leave_types (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, name VARCHAR(100), days INT);
+CREATE TABLE IF NOT EXISTS leave_requests (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, user_id INT, leave_type_id INT, from_date DATE, to_date DATE, reason TEXT, status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);

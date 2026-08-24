@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS inventory_items (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, category VARCHAR(100), name VARCHAR(100), stock INT DEFAULT 0, price DECIMAL(10,2));

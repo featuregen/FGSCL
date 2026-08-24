@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS transport_vehicles (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, vehicle_no VARCHAR(50), driver_name VARCHAR(100), phone VARCHAR(20), capacity INT);
+CREATE TABLE IF NOT EXISTS transport_routes (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, name VARCHAR(100), fare DECIMAL(10,2));

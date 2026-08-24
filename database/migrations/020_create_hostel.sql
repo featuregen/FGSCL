@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS hostel_rooms (id INT AUTO_INCREMENT PRIMARY KEY, school_id INT, hostel_name VARCHAR(100), room_no VARCHAR(50), bed_count INT, cost DECIMAL(10,2));
