@@ -1,6 +1,5 @@
 RewriteEngine On
 
-# Redirect to public directory if not already there
-RewriteCond %{REQUEST_URI} !^/FGSL/public/
-RewriteCond %{REQUEST_URI} ^/FGSL/(.*)$
-RewriteRule ^(.*)$ /FGSL/public/$1 [L]
+# Redirect to public directory
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ /public/$1 [L]
