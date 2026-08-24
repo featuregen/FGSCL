@@ -182,7 +182,8 @@ class Session
      */
     public static function setUser(array $user, array $permissions = []): void
     {
-        session_regenerate_id(true);
+        // Use false to avoid deleting old session file (fixes shared hosting issues)
+        session_regenerate_id(false);
         
         self::set('user_id', (int)$user['id']);
         self::set('user_role', $user['role_slug']);
