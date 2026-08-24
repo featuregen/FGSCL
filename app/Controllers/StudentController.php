@@ -264,7 +264,7 @@ class StudentController
 
         // Generate username
         $username = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $data['full_name'])) . rand(100, 999);
-        $email = $data['email'] ?? ($username . '@student.edugen.local');
+        $email = $data['email'] ?? ($username . '@student.classoragen.local');
         $password = $data['password'] ?? 'student@123';
 
         try {
@@ -702,7 +702,7 @@ class StudentController
 
                 // Generate username
                 $username = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $name)) . rand(100, 999);
-                $email = $data['email'] ?? ($username . '@student.edugen.local');
+                $email = $data['email'] ?? ($username . '@student.classoragen.local');
                 $password = 'student@123';
 
                 // Create user

@@ -11,6 +11,6 @@ return [
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'noreply@yourdomain.com'),
-        'name'    => env('MAIL_FROM_NAME', 'EduGen'),
+        'name'    => env('MAIL_FROM_NAME', 'ClassoraGen'),
     ],
 ];

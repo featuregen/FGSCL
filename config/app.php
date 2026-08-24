@@ -41,7 +41,7 @@ function env(string $key, mixed $default = null): mixed
 }
 
 // ─── App Constants ──────────────────────────────────────
-define('APP_NAME', env('APP_NAME', 'EduGen'));
+define('APP_NAME', env('APP_NAME', 'ClassoraGen'));
 define('APP_URL', env('APP_URL', 'http://localhost:8888/FGSL'));
 define('APP_ENV', env('APP_ENV', 'development'));
 define('APP_DEBUG', env('APP_DEBUG', 'true') === 'true');

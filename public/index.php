@@ -1,6 +1,6 @@
 <?php
 /**
- * EduGen — Front Controller
+ * ClassoraGen — Front Controller
  * All requests are routed through this file
  */
 

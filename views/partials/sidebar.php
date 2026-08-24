@@ -120,7 +120,7 @@ if (in_array($role, [ROLE_STUDENT, ROLE_PARENT])) {
             <?php if ($schoolLogo): ?>
                 <img src="<?= htmlspecialchars($schoolLogo) ?>" alt="Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             <?php else: ?>
-                <img src="<?= APP_URL ?>/public/assets/images/logo.png" alt="EduGen Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                <img src="<?= APP_URL ?>/public/assets/images/logo.png" alt="ClassoraGen Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             <?php endif; ?>
         </div>
         <div>

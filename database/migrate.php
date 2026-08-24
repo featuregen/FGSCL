@@ -26,7 +26,7 @@ function out(string $message, bool $isCli = false): void
 
 // Header
 out("╔══════════════════════════════════════════════╗", $isCli);
-out("║   EduGen — Database Migration               ║", $isCli);
+out("║   ClassoraGen — Database Migration               ║", $isCli);
 out("╚══════════════════════════════════════════════╝", $isCli);
 out("", $isCli);
 

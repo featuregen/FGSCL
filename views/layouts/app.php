@@ -24,7 +24,7 @@ if (!empty($user['full_name'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= $pageDescription ?? 'EduGen - Complete School Management System' ?>">
+    <meta name="description" content="<?= $pageDescription ?? 'ClassoraGen - Complete School Management System' ?>">
     <title><?= htmlspecialchars($pageTitle ?? 'Dashboard') ?> — <?= htmlspecialchars($schoolName) ?></title>
     
     <!-- Dynamic brand color -->

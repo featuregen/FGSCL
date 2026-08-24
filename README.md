@@ -1,8 +1,8 @@
-# EduGen — Smart School ERP
+# ClassoraGen — Smart School ERP
 
 **Smart School . Connected Future**
 
-EduGen is a comprehensive, multi-tenant School ERP system built with PHP. It provides end-to-end school management including academics, attendance, exams, fees, payroll, timetable, homework, library, transport, hostel, inventory, communication, and more.
+ClassoraGen is a comprehensive, multi-tenant School ERP system built with PHP. It provides end-to-end school management including academics, attendance, exams, fees, payroll, timetable, homework, library, transport, hostel, inventory, communication, and more.
 
 ---
 
@@ -62,7 +62,7 @@ EduGen is a comprehensive, multi-tenant School ERP system built with PHP. It pro
 
 3. **Create the database**
    ```sql
-   CREATE DATABASE edugen_erp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   CREATE DATABASE classoragen_erp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
 4. **Run migrations**
