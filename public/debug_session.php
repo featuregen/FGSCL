@@ -1,36 +1,41 @@
 <?php
-// Quick session debug - DELETE THIS FILE AFTER TESTING
+// Debug login flow - DELETE AFTER TESTING
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-echo "<h2>Session Debug</h2>";
+require_once dirname(__DIR__) . '/config/app.php';
+require_once APP_PATH . '/Helpers/Database.php';
+require_once APP_PATH . '/Helpers/Session.php';
 
-// Show session config
-echo "<h3>Session Config:</h3>";
-echo "save_path: " . session_save_path() . "<br>";
-echo "cookie_path: " . ini_get('session.cookie_path') . "<br>";
-echo "cookie_domain: " . ini_get('session.cookie_domain') . "<br>";
-echo "cookie_secure: " . ini_get('session.cookie_secure') . "<br>";
-echo "cookie_samesite: " . ini_get('session.cookie_samesite') . "<br>";
-echo "HTTPS: " . ($_SERVER['HTTPS'] ?? 'not set') . "<br>";
-echo "SERVER_NAME: " . ($_SERVER['SERVER_NAME'] ?? 'not set') . "<br>";
+// Start session exactly like the app does
+Session::start();
 
-// Test session
-session_start();
+echo "<h2>Login Flow Debug</h2>";
+echo "<pre>";
+echo "Session Name: " . session_name() . "\n";
+echo "Session ID: " . session_id() . "\n";
+echo "cookie_secure: " . ini_get('session.cookie_secure') . "\n";
+echo "cookie_samesite: " . ini_get('session.cookie_samesite') . "\n";
+echo "cookie_path: " . ini_get('session.cookie_path') . "\n";
+echo "session.auto_start: " . ini_get('session.auto_start') . "\n";
+echo "APP_URL: " . APP_URL . "\n";
+echo "APP_ENV: " . APP_ENV . "\n";
+echo "HTTPS: " . ($_SERVER['HTTPS'] ?? 'not set') . "\n\n";
 
-if (isset($_SESSION['test_counter'])) {
-    $_SESSION['test_counter']++;
-    echo "<h3 style='color:green;'>✅ Session is WORKING! Counter: " . $_SESSION['test_counter'] . "</h3>";
-} else {
-    $_SESSION['test_counter'] = 1;
-    echo "<h3 style='color:orange;'>⏳ Session started. Refresh page to verify persistence.</h3>";
+echo "SESSION DATA:\n";
+print_r($_SESSION);
+
+echo "\n--- Is Logged In: " . (Session::isLoggedIn() ? 'YES' : 'NO') . " ---\n";
+
+// If ?login=1, simulate setting user data
+if (isset($_GET['login'])) {
+    $_SESSION['user_id'] = 1;
+    $_SESSION['user_role'] = 'super_admin';
+    $_SESSION['user_data'] = ['id' => 1, 'full_name' => 'Test'];
+    $_SESSION['_created'] = time();
+    $_SESSION['last_activity'] = time();
+    echo "\n*** Set user_id=1 and user_role=super_admin ***\n";
+    echo "*** Now visit this page WITHOUT ?login to check persistence ***\n";
 }
 
-echo "<h3>Session ID:</h3>" . session_id();
-echo "<h3>Session Data:</h3><pre>" . print_r($_SESSION, true) . "</pre>";
-
-// Show APP config
-require_once dirname(__DIR__) . '/config/app.php';
-echo "<h3>App Config:</h3>";
-echo "APP_URL: " . APP_URL . "<br>";
-echo "APP_ENV: " . APP_ENV . "<br>";
+echo "</pre>";
