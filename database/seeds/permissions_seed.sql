@@ -46,7 +46,10 @@ INSERT INTO `permissions` (`module`, `action`, `slug`, `description`) VALUES
 ('staff', 'view', 'staff.view', 'View staff list'),
 ('staff', 'create', 'staff.create', 'Add new staff'),
 ('staff', 'edit', 'staff.edit', 'Edit staff details'),
-('staff', 'delete', 'staff.delete', 'Delete staff records');
+('staff', 'delete', 'staff.delete', 'Delete staff records'),
+('leave', 'view', 'leave.view', 'View leave requests'),
+('leave', 'apply', 'leave.apply', 'Apply for staff leave'),
+('leave', 'manage', 'leave.manage', 'Manage and approve leaves');
 
 -- Attendance
 INSERT INTO `permissions` (`module`, `action`, `slug`, `description`) VALUES

@@ -48,6 +48,7 @@ if (in_array($role, [ROLE_SUPER_ADMIN, ROLE_SCHOOL_ADMIN, ROLE_PRINCIPAL, ROLE_T
     $peopleItems = [];
     if (Session::hasPermission('students.view')) $peopleItems[] = ['icon' => 'bi-mortarboard-fill', 'label' => 'Students', 'route' => 'students', 'permission' => 'students.view'];
     if (Session::hasPermission('staff.view')) $peopleItems[] = ['icon' => 'bi-person-badge-fill', 'label' => 'Staff', 'route' => 'staff', 'permission' => 'staff.view'];
+    if (Session::hasPermission('leave.view') || Session::hasPermission('leave.manage')) $peopleItems[] = ['icon' => 'bi-calendar-minus-fill', 'label' => 'Leave Management', 'route' => 'leave', 'permission' => 'leave.view'];
     if (Session::hasPermission('users.view')) $peopleItems[] = ['icon' => 'bi-people-fill', 'label' => 'Users', 'route' => 'users', 'permission' => 'users.view'];
     if (!empty($peopleItems)) {
         $navigation[] = ['section' => 'People', 'items' => $peopleItems];

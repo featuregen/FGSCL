@@ -805,4 +805,46 @@ class StudentController
             ],
         ]);
     }
+
+    /**
+     * AJAX endpoint to fetch students by class
+     */
+    public function ajaxByClass()
+    {
+        $schoolId = $this->getSchoolId();
+        if (!$schoolId) {
+            Response::json(['students' => []]);
+            return;
+        }
+
+        $classId   = !empty($_GET['class_id']) ? (int)$_GET['class_id'] : null;
+        $sectionId = !empty($_GET['section_id']) ? (int)$_GET['section_id'] : null;
+
+        $params = [$schoolId];
+        $where = "u.school_id = ? AND u.is_active = 1";
+
+        if ($classId) {
+            $where .= " AND sd.class_id = ?";
+            $params[] = $classId;
+        }
+        if ($sectionId) {
+            $where .= " AND sd.section_id = ?";
+            $params[] = $sectionId;
+        }
+
+        $students = Database::fetchAll(
+            "SELECT u.id, u.full_name, u.phone, sd.admission_no, sd.roll_number,
+                    c.name as class_name, sec.name as section_name
+             FROM users u
+             JOIN student_details sd ON u.id = sd.user_id
+             LEFT JOIN classes c ON sd.class_id = c.id
+             LEFT JOIN sections sec ON sd.section_id = sec.id
+             WHERE {$where}
+             ORDER BY c.name ASC, sec.name ASC, sd.roll_number ASC, u.full_name ASC",
+            $params
+        );
+
+        Response::json(['students' => $students]);
+    }
 }
+
