@@ -1,4 +1,3 @@
-<?php require_once VIEW_PATH . '/layouts/header.php'; ?>
 
 <div class="content-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
     <div>
@@ -365,4 +364,3 @@ function closeModal(id) {
 }
 </script>
 
-<?php require_once VIEW_PATH . '/layouts/footer.php'; ?>
