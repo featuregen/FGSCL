@@ -4,7 +4,10 @@ require_once __DIR__ . '/../app/Helpers/Database.php';
 
 try {
     $pdo = Database::pdo();
+    $pdo->exec("SET FOREIGN_KEY_CHECKS=0");
     $pdo->exec("TRUNCATE TABLE modules");
+    $pdo->exec("TRUNCATE TABLE school_modules");
+    $pdo->exec("SET FOREIGN_KEY_CHECKS=1");
     
     $sql = "INSERT INTO `modules` (`name`, `slug`, `description`, `icon`, `category`, `is_core`, `sort_order`) VALUES
     ('Dashboard',       'dashboard',       'Main dashboard and analytics',              'bi-speedometer2',     'core',       1, 1),
