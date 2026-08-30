@@ -41,6 +41,12 @@ try {
         echo "<p>Added category_id to inventory_items</p>";
     } catch (Exception $e) { echo "<p>Skipped category_id (might already exist)</p>"; }
 
+    // Leave requests
+    try {
+        $pdo->exec("ALTER TABLE leave_requests ADD COLUMN approved_by INT NULL DEFAULT NULL AFTER status");
+        echo "<p>Added approved_by to leave_requests</p>";
+    } catch (Exception $e) { echo "<p>Skipped approved_by (might already exist)</p>"; }
+
     echo "<h1>All missing columns have been successfully added!</h1>";
 } catch (Exception $e) {
     echo "<h1>Error</h1><p>" . htmlspecialchars($e->getMessage()) . "</p>";
