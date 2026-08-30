@@ -28,10 +28,16 @@ try {
     // 4. Enable All Modules
     $modules = ['students', 'staff', 'academic', 'fees', 'attendance', 'exams', 'library', 'transport', 'hostel', 'homework', 'payroll', 'leave', 'communication', 'inventory', 'certificates', 'reports', 'visitors'];
     
-    $modStmt = $pdo->prepare("INSERT INTO school_modules (school_id, module_name, is_enabled) VALUES (?, ?, 1)");
-    foreach ($modules as $mod) {
+    $modStmt = $pdo->prepare("INSERT INTO school_modules (school_id, module_id, is_enabled) VALUES (?, ?, 1)");
+    $getModStmt = $pdo->prepare("SELECT id FROM modules WHERE slug = ?");
+    
+    foreach ($modules as $modSlug) {
         try {
-            $modStmt->execute([$schoolId, $mod]);
+            $getModStmt->execute([$modSlug]);
+            $modId = $getModStmt->fetchColumn();
+            if ($modId) {
+                $modStmt->execute([$schoolId, $modId]);
+            }
         } catch (Exception $e) {}
     }
     
