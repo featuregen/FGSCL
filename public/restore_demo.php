@@ -6,13 +6,13 @@ try {
     $pdo = Database::pdo();
     
     // 1. Create a school
-    $schoolStmt = $pdo->prepare("INSERT INTO schools (name, email, phone, address, status, subscription_plan_id, subscription_status, subscription_end_date) VALUES ('FG Public School', 'fg@example.com', '1234567890', '123 Main St', 'active', 1, 'active', '2030-12-31')");
+    $schoolStmt = $pdo->prepare("INSERT INTO schools (name, email, phone, address, is_active) VALUES ('FG Public School', 'fg@example.com', '1234567890', '123 Main St', 1)");
     $schoolStmt->execute();
     $schoolId = $pdo->lastInsertId();
     
     // 2. Create School Admin user
     $pwd = password_hash('password123', PASSWORD_DEFAULT);
-    $userStmt = $pdo->prepare("INSERT INTO users (school_id, first_name, last_name, email, password, user_type, status) VALUES (?, 'School', 'Admin', 'admin@example.com', ?, 'school_admin', 'active')");
+    $userStmt = $pdo->prepare("INSERT INTO users (school_id, username, full_name, email, password, user_type, is_active) VALUES (?, 'admin', 'School Admin', 'admin@example.com', ?, 'school_admin', 1)");
     $userStmt->execute([$schoolId, $pwd]);
     $userId = $pdo->lastInsertId();
     
