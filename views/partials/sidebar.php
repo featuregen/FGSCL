@@ -28,6 +28,7 @@ if ($role === ROLE_SUPER_ADMIN) {
         'items' => [
             ['icon' => 'bi-building', 'label' => 'Schools', 'route' => 'schools', 'permission' => 'schools.view'],
             ['icon' => 'bi-credit-card', 'label' => 'Subscriptions', 'route' => 'subscriptions', 'permission' => 'schools.manage_subscription'],
+            ['icon' => 'bi-tags', 'label' => 'Plans', 'route' => 'plans', 'permission' => 'schools.manage_subscription'],
             ['icon' => 'bi-people-fill', 'label' => 'All Users', 'route' => 'users', 'permission' => 'users.view'],
         ],
     ];
