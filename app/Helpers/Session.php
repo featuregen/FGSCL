@@ -156,9 +156,16 @@ class Session
     public static function schoolId(): ?int
     {
         $id = self::get('school_id');
-        if (!$id && self::userRole() === 'super_admin') {
+        if ($id) {
+            return (int)$id;
+        }
+        
+        // For admin-level users without a school_id, auto-resolve to first active school
+        $role = self::userRole();
+        $adminRoles = ['super_admin', 'school_admin', 'principal'];
+        if (in_array($role, $adminRoles) || $role === ROLE_SUPER_ADMIN) {
             if (self::has('super_admin_school_id')) {
-                return self::get('super_admin_school_id');
+                return (int)self::get('super_admin_school_id');
             }
             $school = Database::fetch("SELECT id FROM schools WHERE is_active = 1 ORDER BY id ASC LIMIT 1");
             if ($school) {
@@ -166,7 +173,7 @@ class Session
                 return (int)$school['id'];
             }
         }
-        return $id;
+        return null;
     }
 
     /**
