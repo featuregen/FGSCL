@@ -15,7 +15,7 @@ try {
     $schoolId = $pdo->lastInsertId();
     
     // 2. Create School Admin user
-    $pwd = password_hash('password123', PASSWORD_DEFAULT);
+    $pwd = password_hash('Admin@123', PASSWORD_DEFAULT);
     $userStmt = $pdo->prepare("INSERT INTO users (school_id, username, full_name, email, password, user_type, is_active) VALUES (?, 'admin', 'School Admin', 'admin@example.com', ?, 'school_admin', 1)");
     $userStmt->execute([$schoolId, $pwd]);
     $userId = $pdo->lastInsertId();
