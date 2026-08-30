@@ -213,6 +213,13 @@ class SchoolController
                 ]);
             }
 
+            // Save enabled modules for this school
+            $selectedModules = $_POST['modules'] ?? [];
+            if (!empty($selectedModules)) {
+                require_once APP_PATH . '/Services/ModuleService.php';
+                ModuleService::setSchoolModules($schoolId, $selectedModules, Session::userId());
+            }
+
             Database::commit();
 
             // Send welcome email to school admin
@@ -315,6 +322,11 @@ class SchoolController
         }
 
         Database::update('schools', $updateData, 'id = ?', [$id]);
+
+        // Save enabled modules for this school
+        $selectedModules = $_POST['modules'] ?? [];
+        require_once APP_PATH . '/Services/ModuleService.php';
+        ModuleService::setSchoolModules($id, $selectedModules, Session::userId());
 
         Session::flash('success', 'School updated successfully.');
         Response::redirect('schools');
