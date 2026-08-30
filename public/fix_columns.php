@@ -34,7 +34,8 @@ try {
     try {
         $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN to_meet_user_id INT NULL DEFAULT NULL AFTER school_id");
         $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN status ENUM('inside', 'left') DEFAULT 'inside' AFTER to_meet_user_id");
-        echo "<p>Added to_meet_user_id and status to visitor_logs</p>";
+        $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN created_by INT NULL DEFAULT NULL AFTER status");
+        echo "<p>Added to_meet_user_id, status, and created_by to visitor_logs</p>";
     } catch (Exception $e) { echo "<p>Skipped visitor_logs extras (might already exist)</p>"; }
 
     // Inventory items
