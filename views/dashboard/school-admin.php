@@ -40,24 +40,41 @@
         </div>
         <div class="card-body">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <?php if (Session::hasPermission('students.create')): ?>
                 <a href="<?= APP_URL ?>/students/create" class="btn btn-outline-primary w-100">
                     <i class="bi bi-person-plus"></i> New Student
                 </a>
+                <?php endif; ?>
+                
+                <?php if (Session::hasPermission('attendance.mark') || Session::hasPermission('attendance.view')): ?>
                 <a href="<?= APP_URL ?>/attendance" class="btn btn-outline-primary w-100">
                     <i class="bi bi-clipboard-check"></i> Attendance
                 </a>
+                <?php endif; ?>
+                
+                <?php if (Session::hasPermission('fees.collect') || Session::hasPermission('fees.view')): ?>
                 <a href="<?= APP_URL ?>/fees/collection" class="btn btn-outline-primary w-100">
                     <i class="bi bi-wallet2"></i> Collect Fee
                 </a>
+                <?php endif; ?>
+                
+                <?php if (Session::hasPermission('communication.send') || Session::hasPermission('communication.view')): ?>
                 <a href="<?= APP_URL ?>/communication" class="btn btn-outline-primary w-100">
                     <i class="bi bi-megaphone"></i> Broadcast
                 </a>
+                <?php endif; ?>
+                
+                <?php if (Session::hasPermission('exams.manage') || Session::hasPermission('exams.view')): ?>
                 <a href="<?= APP_URL ?>/exams" class="btn btn-outline-primary w-100">
                     <i class="bi bi-journal-text"></i> Exams
                 </a>
+                <?php endif; ?>
+                
+                <?php if (Session::hasPermission('reports.view')): ?>
                 <a href="<?= APP_URL ?>/reports" class="btn btn-outline-primary w-100">
                     <i class="bi bi-bar-chart"></i> Reports
                 </a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

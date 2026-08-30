@@ -328,6 +328,61 @@ class SchoolController
         require_once APP_PATH . '/Services/ModuleService.php';
         ModuleService::setSchoolModules($id, $selectedModules, Session::userId());
 
+        // Save Subscription Plan
+        if (!empty($data['plan_id'])) {
+            $plan = Database::fetch("SELECT * FROM plans WHERE id = ?", [$data['plan_id']]);
+            if ($plan) {
+                $billingCycle = $data['billing_cycle'] ?? 'monthly';
+                $pricingType = $data['pricing_type'] ?? 'fixed';
+                
+                // End date based on billing cycle
+                require_once APP_PATH . '/Services/BillingService.php';
+                $cycleMonths = BillingService::getCycleMultiplier($billingCycle);
+                
+                $unitPrice = (float)($data['subscription_amount'] ?? 0);
+                
+                $activeStudents = Database::count(
+                    'users',
+                    "school_id = ? AND user_type = 'student' AND is_active = 1",
+                    [$id]
+                );
+
+                if ($pricingType === 'per_student') {
+                    $amount = $unitPrice * $activeStudents; 
+                } else {
+                    $amount = $unitPrice;
+                }
+
+                if ($plan['slug'] === 'free' || $unitPrice == 0) {
+                    $amount = 0;
+                    $unitPrice = 0;
+                }
+                
+                $currentSub = Database::fetch("SELECT id, start_date FROM subscriptions WHERE school_id = ? ORDER BY created_at DESC LIMIT 1", [$id]);
+                
+                $subData = [
+                    'school_id'      => $id,
+                    'plan_id'        => $data['plan_id'],
+                    'billing_cycle'  => $billingCycle,
+                    'pricing_type'   => $pricingType,
+                    'student_count'  => $activeStudents,
+                    'unit_price'     => $unitPrice,
+                    'amount'         => $amount,
+                    'payment_status' => $amount == 0 ? 'paid' : 'pending',
+                ];
+
+                if ($currentSub) {
+                    $subData['end_date'] = date('Y-m-d', strtotime($currentSub['start_date'] . " +{$cycleMonths} months"));
+                    Database::update('subscriptions', $subData, 'id = ?', [$currentSub['id']]);
+                } else {
+                    $subData['start_date'] = date('Y-m-d');
+                    $subData['end_date'] = date('Y-m-d', strtotime("+{$cycleMonths} months"));
+                    $subData['status'] = 'active';
+                    Database::insert('subscriptions', $subData);
+                }
+            }
+        }
+
         Session::flash('success', 'School updated successfully.');
         Response::redirect('schools');
     }

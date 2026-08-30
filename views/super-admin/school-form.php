@@ -318,7 +318,7 @@
             </div>
 
             <!-- Subscription Plan -->
-            <?php if (!$isEdit): ?>
+
             <div class="card mb-4">
                 <div class="card-header">
                     <h3 class="card-title"><i class="bi bi-credit-card me-2"></i> Subscription Plan</h3>
@@ -331,6 +331,7 @@
                                 <option value="">No Plan (Free)</option>
                                 <?php foreach ($plans ?? [] as $plan): ?>
                                     <option value="<?= $plan['id'] ?>" 
+                                        <?= (($subscription['plan_id'] ?? '') == $plan['id']) ? 'selected' : '' ?>
                                         data-type="<?= $plan['pricing_type'] ?>"
                                         data-desc="<?= htmlspecialchars($plan['description'] ?? '') ?>">
                                         <?= htmlspecialchars($plan['name']) ?>
@@ -343,10 +344,10 @@
                         <div class="form-group">
                             <label class="form-label">Billing Cycle</label>
                             <select class="form-control" name="billing_cycle" id="billingCycle">
-                                <option value="monthly">Monthly</option>
-                                <option value="quarterly">Quarterly (3 months)</option>
-                                <option value="half_yearly">Half-Yearly (6 months)</option>
-                                <option value="yearly">Yearly (12 months)</option>
+                                <option value="monthly" <?= (($subscription['billing_cycle'] ?? '') === 'monthly') ? 'selected' : '' ?>>Monthly</option>
+                                <option value="quarterly" <?= (($subscription['billing_cycle'] ?? '') === 'quarterly') ? 'selected' : '' ?>>Quarterly (3 months)</option>
+                                <option value="half_yearly" <?= (($subscription['billing_cycle'] ?? '') === 'half_yearly') ? 'selected' : '' ?>>Half-Yearly (6 months)</option>
+                                <option value="yearly" <?= (($subscription['billing_cycle'] ?? '') === 'yearly') ? 'selected' : '' ?>>Yearly (12 months)</option>
                             </select>
                         </div>
                     </div>
@@ -355,8 +356,8 @@
                         <div class="form-group">
                             <label class="form-label">Pricing Type</label>
                             <select class="form-control" name="pricing_type" id="pricingType">
-                                <option value="fixed">Fixed Amount</option>
-                                <option value="per_student">Per Student (auto-count active students)</option>
+                                <option value="fixed" <?= (($subscription['pricing_type'] ?? '') === 'fixed') ? 'selected' : '' ?>>Fixed Amount</option>
+                                <option value="per_student" <?= (($subscription['pricing_type'] ?? '') === 'per_student') ? 'selected' : '' ?>>Per Student (auto-count active students)</option>
                             </select>
                             <div class="form-text" id="pricingHint">Same amount every billing cycle</div>
                         </div>
@@ -364,7 +365,7 @@
                         <div class="form-group">
                             <label class="form-label" id="amountLabel">Subscription Amount (₹) <span class="required">*</span></label>
                             <input type="number" class="form-control" name="subscription_amount" id="subscriptionAmount"
-                                   step="0.01" min="0" value="0" placeholder="Enter amount">
+                                   step="0.01" min="0" value="<?= htmlspecialchars($subscription['amount'] ?? '0') ?>" placeholder="Enter amount">
                             <div class="form-text" id="amountHint">Enter the amount to charge per billing cycle</div>
                         </div>
                     </div>
@@ -460,7 +461,6 @@
                 amountInput.addEventListener('input', updateUI);
             });
             </script>
-            <?php endif; ?>
 
             <!-- Status (edit only) -->
             <?php if ($isEdit): ?>

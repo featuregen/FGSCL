@@ -7,6 +7,9 @@
 $segments = $GLOBALS['_segments'] ?? $segments ?? [];
 $currentModule = $segments[0] ?? 'dashboard';
 
+require_once APP_PATH . '/Services/ModuleService.php';
+$schoolId = Session::schoolId();
+
 // Build navigation based on role
 $navigation = [];
 
@@ -46,54 +49,54 @@ if (in_array($role, [ROLE_SUPER_ADMIN, ROLE_SCHOOL_ADMIN, ROLE_PRINCIPAL, ROLE_T
 
     // People
     $peopleItems = [];
-    if (Session::hasPermission('students.view')) $peopleItems[] = ['icon' => 'bi-mortarboard-fill', 'label' => 'Students', 'route' => 'students', 'permission' => 'students.view'];
-    if (Session::hasPermission('staff.view')) $peopleItems[] = ['icon' => 'bi-person-badge-fill', 'label' => 'Staff', 'route' => 'staff', 'permission' => 'staff.view'];
-    if (Session::hasPermission('leave.view') || Session::hasPermission('leave.manage')) $peopleItems[] = ['icon' => 'bi-calendar-minus-fill', 'label' => 'Leave Management', 'route' => 'leave', 'permission' => 'leave.view'];
-    if (Session::hasPermission('users.view')) $peopleItems[] = ['icon' => 'bi-people-fill', 'label' => 'Users', 'route' => 'users', 'permission' => 'users.view'];
+    if (Session::hasPermission('students.view') && ModuleService::isEnabled($schoolId, 'students')) $peopleItems[] = ['icon' => 'bi-mortarboard-fill', 'label' => 'Students', 'route' => 'students', 'permission' => 'students.view'];
+    if (Session::hasPermission('staff.view') && ModuleService::isEnabled($schoolId, 'staff')) $peopleItems[] = ['icon' => 'bi-person-badge-fill', 'label' => 'Staff', 'route' => 'staff', 'permission' => 'staff.view'];
+    if ((Session::hasPermission('leave.view') || Session::hasPermission('leave.manage')) && ModuleService::isEnabled($schoolId, 'staff')) $peopleItems[] = ['icon' => 'bi-calendar-minus-fill', 'label' => 'Leave Management', 'route' => 'leave', 'permission' => 'leave.view'];
+    if (Session::hasPermission('users.view') && ModuleService::isEnabled($schoolId, 'users')) $peopleItems[] = ['icon' => 'bi-people-fill', 'label' => 'Users', 'route' => 'users', 'permission' => 'users.view'];
     if (!empty($peopleItems)) {
         $navigation[] = ['section' => 'People', 'items' => $peopleItems];
     }
 
     // Academics
     $academicItems = [];
-    if (Session::hasPermission('attendance.view')) $academicItems[] = ['icon' => 'bi-clipboard-check', 'label' => 'Attendance', 'route' => 'attendance', 'permission' => 'attendance.view'];
-    if (Session::hasPermission('timetable.view')) $academicItems[] = ['icon' => 'bi-calendar-week', 'label' => 'Timetable', 'route' => 'timetable', 'permission' => 'timetable.view'];
-    if (Session::hasPermission('exams.view')) $academicItems[] = ['icon' => 'bi-journal-text', 'label' => 'Exams', 'route' => 'exams', 'permission' => 'exams.view'];
-    if (Session::hasPermission('homework.view')) $academicItems[] = ['icon' => 'bi-book-half', 'label' => 'Homework', 'route' => 'homework', 'permission' => 'homework.view'];
+    if (Session::hasPermission('attendance.view') && ModuleService::isEnabled($schoolId, 'attendance')) $academicItems[] = ['icon' => 'bi-clipboard-check', 'label' => 'Attendance', 'route' => 'attendance', 'permission' => 'attendance.view'];
+    if (Session::hasPermission('timetable.view') && ModuleService::isEnabled($schoolId, 'timetable')) $academicItems[] = ['icon' => 'bi-calendar-week', 'label' => 'Timetable', 'route' => 'timetable', 'permission' => 'timetable.view'];
+    if (Session::hasPermission('exams.view') && ModuleService::isEnabled($schoolId, 'exams')) $academicItems[] = ['icon' => 'bi-journal-text', 'label' => 'Exams', 'route' => 'exams', 'permission' => 'exams.view'];
+    if (Session::hasPermission('homework.view') && ModuleService::isEnabled($schoolId, 'homework')) $academicItems[] = ['icon' => 'bi-book-half', 'label' => 'Homework', 'route' => 'homework', 'permission' => 'homework.view'];
     if (!empty($academicItems)) {
         $navigation[] = ['section' => 'Academics', 'items' => $academicItems];
     }
 
     // Finance
     $financeItems = [];
-    if (Session::hasPermission('fees.view')) $financeItems[] = ['icon' => 'bi-wallet2', 'label' => 'Fees', 'route' => 'fees', 'permission' => 'fees.view'];
-    if (Session::hasPermission('payroll.view')) $financeItems[] = ['icon' => 'bi-cash-stack', 'label' => 'Payroll', 'route' => 'payroll', 'permission' => 'payroll.view'];
+    if (Session::hasPermission('fees.view') && ModuleService::isEnabled($schoolId, 'fees')) $financeItems[] = ['icon' => 'bi-wallet2', 'label' => 'Fees', 'route' => 'fees', 'permission' => 'fees.view'];
+    if (Session::hasPermission('payroll.view') && ModuleService::isEnabled($schoolId, 'payroll')) $financeItems[] = ['icon' => 'bi-cash-stack', 'label' => 'Payroll', 'route' => 'payroll', 'permission' => 'payroll.view'];
     if (!empty($financeItems)) {
         $navigation[] = ['section' => 'Finance', 'items' => $financeItems];
     }
 
     // Resources
     $resourceItems = [];
-    if (Session::hasPermission('library.view')) $resourceItems[] = ['icon' => 'bi-book', 'label' => 'Library', 'route' => 'library', 'permission' => 'library.view'];
-    if (Session::hasPermission('transport.view')) $resourceItems[] = ['icon' => 'bi-bus-front', 'label' => 'Transport', 'route' => 'transport', 'permission' => 'transport.view'];
-    if (Session::hasPermission('hostel.view')) $resourceItems[] = ['icon' => 'bi-house-door', 'label' => 'Hostel', 'route' => 'hostel', 'permission' => 'hostel.view'];
-    if (Session::hasPermission('inventory.view')) $resourceItems[] = ['icon' => 'bi-box-seam', 'label' => 'Inventory', 'route' => 'inventory', 'permission' => 'inventory.view'];
+    if (Session::hasPermission('library.view') && ModuleService::isEnabled($schoolId, 'library')) $resourceItems[] = ['icon' => 'bi-book', 'label' => 'Library', 'route' => 'library', 'permission' => 'library.view'];
+    if (Session::hasPermission('transport.view') && ModuleService::isEnabled($schoolId, 'transport')) $resourceItems[] = ['icon' => 'bi-bus-front', 'label' => 'Transport', 'route' => 'transport', 'permission' => 'transport.view'];
+    if (Session::hasPermission('hostel.view') && ModuleService::isEnabled($schoolId, 'hostel')) $resourceItems[] = ['icon' => 'bi-house-door', 'label' => 'Hostel', 'route' => 'hostel', 'permission' => 'hostel.view'];
+    if (Session::hasPermission('inventory.view') && ModuleService::isEnabled($schoolId, 'inventory')) $resourceItems[] = ['icon' => 'bi-box-seam', 'label' => 'Inventory', 'route' => 'inventory', 'permission' => 'inventory.view'];
     if (!empty($resourceItems)) {
         $navigation[] = ['section' => 'Resources', 'items' => $resourceItems];
     }
 
     // Communication
     $commItems = [];
-    if (Session::hasPermission('communication.view')) $commItems[] = ['icon' => 'bi-megaphone-fill', 'label' => 'Communication', 'route' => 'communication', 'permission' => 'communication.view'];
-    if (Session::hasPermission('visitors.view')) $commItems[] = ['icon' => 'bi-person-walking', 'label' => 'Visitors', 'route' => 'visitors', 'permission' => 'visitors.view'];
+    if (Session::hasPermission('communication.view') && ModuleService::isEnabled($schoolId, 'communication')) $commItems[] = ['icon' => 'bi-megaphone-fill', 'label' => 'Communication', 'route' => 'communication', 'permission' => 'communication.view'];
+    if (Session::hasPermission('visitors.view') && ModuleService::isEnabled($schoolId, 'visitors')) $commItems[] = ['icon' => 'bi-person-walking', 'label' => 'Visitors', 'route' => 'visitors', 'permission' => 'visitors.view'];
     if (!empty($commItems)) {
         $navigation[] = ['section' => 'Communication', 'items' => $commItems];
     }
 
     // Reports
     $reportItems = [];
-    if (Session::hasPermission('reports.view')) $reportItems[] = ['icon' => 'bi-bar-chart-line-fill', 'label' => 'Reports', 'route' => 'reports', 'permission' => 'reports.view'];
-    if (Session::hasPermission('certificates.view')) $reportItems[] = ['icon' => 'bi-award', 'label' => 'Certificates', 'route' => 'certificates', 'permission' => 'certificates.view'];
+    if (Session::hasPermission('reports.view') && ModuleService::isEnabled($schoolId, 'reports')) $reportItems[] = ['icon' => 'bi-bar-chart-line-fill', 'label' => 'Reports', 'route' => 'reports', 'permission' => 'reports.view'];
+    if (Session::hasPermission('certificates.view') && ModuleService::isEnabled($schoolId, 'certificates')) $reportItems[] = ['icon' => 'bi-award', 'label' => 'Certificates', 'route' => 'certificates', 'permission' => 'certificates.view'];
     if (!empty($reportItems)) {
         $navigation[] = ['section' => 'Reports', 'items' => $reportItems];
     }
