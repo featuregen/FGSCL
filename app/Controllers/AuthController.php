@@ -92,10 +92,13 @@ class AuthController
         if (empty($permissions) && $user['user_type'] === 'school_admin') {
             $role = Database::fetch("SELECT id FROM roles WHERE slug = 'school_admin'");
             if ($role) {
-                Database::insert('user_roles', [
-                    'user_id' => $user['id'],
-                    'role_id' => $role['id']
-                ]);
+                $hasRole = Database::fetch("SELECT id FROM user_roles WHERE user_id = ? AND role_id = ?", [$user['id'], $role['id']]);
+                if (!$hasRole) {
+                    Database::insert('user_roles', [
+                        'user_id' => $user['id'],
+                        'role_id' => $role['id']
+                    ]);
+                }
                 // Re-fetch permissions
                 $permissions = User::getPermissions($user['id']);
             }
