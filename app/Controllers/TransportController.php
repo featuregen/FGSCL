@@ -62,9 +62,9 @@ class TransportController
         $allocations = Database::fetchAll(
             "SELECT ta.*, u.full_name as student_name, u.phone as student_phone,
                     c.name as class_name, sec.name as section_name,
-                    tr.route_title, tr.fare as route_fare,
+                    tr.name as route_title, tr.fare as route_fare,
                     ts.stop_name, ts.pickup_time, ts.drop_time,
-                    tv.vehicle_no, tv.driver_name, tv.driver_phone
+                    tv.vehicle_no, tv.driver_name, tv.phone as driver_phone
              FROM transport_allocations ta
              JOIN users u ON ta.student_id = u.id
              LEFT JOIN student_details sd ON u.id = sd.user_id
@@ -74,7 +74,7 @@ class TransportController
              LEFT JOIN transport_stops ts ON ta.stop_id = ts.id
              LEFT JOIN transport_vehicles tv ON tr.vehicle_id = tv.id
              WHERE ta.school_id = ? AND ta.status = 'active'
-             ORDER BY tr.route_title ASC, u.full_name ASC",
+             ORDER BY tr.name ASC, u.full_name ASC",
             [$schoolId]
         );
 
