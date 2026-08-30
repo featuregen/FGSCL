@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><code style="background: var(--gray-100); padding: 2px 8px; border-radius: 4px; font-size: 12px;"><?= htmlspecialchars($school['code']) ?></code></td>
+                                <td><code style="background: var(--gray-100); padding: 2px 8px; border-radius: 4px; font-size: 12px;"><?= htmlspecialchars($school['code'] ?? 'N/A') ?></code></td>
                                 <td>
                                     <div style="font-size: 12px;"><?= htmlspecialchars($school['email'] ?? '') ?></div>
                                     <div style="font-size: 11px; color: var(--gray-400);"><?= htmlspecialchars($school['phone'] ?? '') ?></div>
