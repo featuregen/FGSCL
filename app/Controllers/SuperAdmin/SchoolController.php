@@ -71,11 +71,19 @@ class SchoolController
     {
         $plans = Database::fetchAll("SELECT * FROM plans WHERE is_active = 1 ORDER BY sort_order");
         
+        $planDefaults = [];
+        foreach ($plans as $plan) {
+            $planDefaults[$plan['id']] = json_decode($plan['features'] ?? '[]', true) ?? [];
+        }
+
         Response::view('super-admin.school-form', [
-            'pageTitle'  => 'Add New School',
-            'school'     => null,
-            'plans'      => $plans,
-            'breadcrumb' => [
+            'pageTitle'          => 'Add New School',
+            'school'             => null,
+            'plans'              => $plans,
+            'modulesByCategory'  => ModuleService::getModulesByCategory(),
+            'enabledModuleSlugs' => [],
+            'planDefaultFeatures'=> $planDefaults,
+            'breadcrumb'         => [
                 ['label' => 'Schools', 'url' => 'schools'],
                 ['label' => 'Add New'],
             ],
@@ -254,13 +262,21 @@ class SchoolController
             "SELECT * FROM subscriptions WHERE school_id = ? ORDER BY created_at DESC LIMIT 1",
             [(int)$id]
         );
+        
+        $planDefaults = [];
+        foreach ($plans as $plan) {
+            $planDefaults[$plan['id']] = json_decode($plan['features'] ?? '[]', true) ?? [];
+        }
 
         Response::view('super-admin.school-form', [
-            'pageTitle'    => 'Edit School',
-            'school'       => $school,
-            'plans'        => $plans,
-            'subscription' => $subscription ?? null,
-            'breadcrumb'   => [
+            'pageTitle'          => 'Edit School',
+            'school'             => $school,
+            'plans'              => $plans,
+            'subscription'       => $subscription ?? null,
+            'modulesByCategory'  => ModuleService::getModulesByCategory(),
+            'enabledModuleSlugs' => ModuleService::getEnabledModules((int)$id),
+            'planDefaultFeatures'=> $planDefaults,
+            'breadcrumb'         => [
                 ['label' => 'Schools', 'url' => 'schools'],
                 ['label' => 'Edit'],
             ],
