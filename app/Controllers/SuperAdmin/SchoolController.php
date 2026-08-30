@@ -5,6 +5,7 @@
  */
 
 require_once APP_PATH . '/Models/User.php';
+require_once APP_PATH . '/Services/ModuleService.php';
 
 class SchoolController
 {
