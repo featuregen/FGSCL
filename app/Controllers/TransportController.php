@@ -39,13 +39,13 @@ class TransportController
 
         // 2. Fetch Routes with assigned Vehicle & Stops
         $routes = Database::fetchAll(
-            "SELECT r.*, v.vehicle_no, v.driver_name, v.driver_phone, v.capacity,
+            "SELECT r.*, v.vehicle_no, v.driver_name, v.phone as driver_phone, v.capacity,
                     (SELECT COUNT(*) FROM transport_stops WHERE route_id = r.id) as stop_count,
                     (SELECT COUNT(*) FROM transport_allocations WHERE route_id = r.id AND status = 'active') as student_count
              FROM transport_routes r
              LEFT JOIN transport_vehicles v ON r.vehicle_id = v.id
              WHERE r.school_id = ?
-             ORDER BY r.route_title ASC",
+             ORDER BY r.name ASC",
             [$schoolId]
         );
 

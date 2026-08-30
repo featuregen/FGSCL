@@ -26,19 +26,22 @@ try {
     // Hostel rooms
     try {
         $pdo->exec("ALTER TABLE hostel_rooms ADD COLUMN hostel_id INT NULL DEFAULT NULL AFTER school_id");
-        echo "<p>Added hostel_id to hostel_rooms</p>";
-    } catch (Exception $e) { echo "<p>Skipped hostel_id (might already exist)</p>"; }
+        $pdo->exec("ALTER TABLE hostel_rooms CHANGE COLUMN bed_count number_of_beds INT NULL DEFAULT NULL");
+        echo "<p>Added hostel_id and number_of_beds to hostel_rooms</p>";
+    } catch (Exception $e) { echo "<p>Skipped hostel_rooms extras (might already exist)</p>"; }
 
     // Visitor logs
     try {
-        $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN status ENUM('inside', 'left') DEFAULT 'inside' AFTER school_id");
-        echo "<p>Added status to visitor_logs</p>";
-    } catch (Exception $e) { echo "<p>Skipped status (might already exist)</p>"; }
+        $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN to_meet_user_id INT NULL DEFAULT NULL AFTER school_id");
+        $pdo->exec("ALTER TABLE visitor_logs ADD COLUMN status ENUM('inside', 'left') DEFAULT 'inside' AFTER to_meet_user_id");
+        echo "<p>Added to_meet_user_id and status to visitor_logs</p>";
+    } catch (Exception $e) { echo "<p>Skipped visitor_logs extras (might already exist)</p>"; }
 
     // Inventory items
     try {
         $pdo->exec("ALTER TABLE inventory_items ADD COLUMN category_id INT NULL DEFAULT NULL AFTER school_id");
-        echo "<p>Added category_id to inventory_items</p>";
+        $pdo->exec("ALTER TABLE inventory_items ADD COLUMN supplier_id INT NULL DEFAULT NULL AFTER category_id");
+        echo "<p>Added category_id and supplier_id to inventory_items</p>";
     } catch (Exception $e) { echo "<p>Skipped category_id (might already exist)</p>"; }
 
     // Leave requests
@@ -46,6 +49,15 @@ try {
         $pdo->exec("ALTER TABLE leave_requests ADD COLUMN approved_by INT NULL DEFAULT NULL AFTER status");
         echo "<p>Added approved_by to leave_requests</p>";
     } catch (Exception $e) { echo "<p>Skipped approved_by (might already exist)</p>"; }
+
+    // Leave types additional columns
+    try {
+        $pdo->exec("ALTER TABLE leave_types ADD COLUMN code VARCHAR(20) NULL DEFAULT NULL AFTER name");
+        $pdo->exec("ALTER TABLE leave_types CHANGE COLUMN days days_per_year INT NULL DEFAULT NULL");
+        $pdo->exec("ALTER TABLE leave_types ADD COLUMN description TEXT NULL DEFAULT NULL AFTER is_paid");
+        $pdo->exec("ALTER TABLE leave_types ADD COLUMN status ENUM('active','inactive') DEFAULT 'active' AFTER description");
+        echo "<p>Added code, days_per_year, description, status to leave_types</p>";
+    } catch (Exception $e) { echo "<p>Skipped leave_types extra columns (might already exist)</p>"; }
 
     echo "<h1>All missing columns have been successfully added!</h1>";
 } catch (Exception $e) {

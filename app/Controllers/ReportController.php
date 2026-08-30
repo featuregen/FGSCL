@@ -66,7 +66,7 @@ class ReportController
         $classFeeSummary = Database::fetchAll(
             "SELECT c.name as class_name, 
                     COUNT(DISTINCT sd.user_id) as student_count,
-                    COALESCE(SUM(fp.amount_paid), 0) as total_collected
+                    COALESCE(SUM(fp.net_amount), 0) as total_collected
              FROM classes c
              LEFT JOIN student_details sd ON c.id = sd.class_id
              LEFT JOIN fee_payments fp ON sd.user_id = fp.student_id

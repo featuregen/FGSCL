@@ -65,8 +65,8 @@ class CertificateController
         );
 
         // Stats
-        $tcCount = Database::fetch("SELECT COUNT(*) as cnt FROM issued_certificates WHERE school_id = ? AND certificate_type = 'tc'", [$schoolId])['cnt'] ?? 0;
-        $bonafideCount = Database::fetch("SELECT COUNT(*) as cnt FROM issued_certificates WHERE school_id = ? AND certificate_type = 'bonafide'", [$schoolId])['cnt'] ?? 0;
+        $tcCount = Database::fetch("SELECT COUNT(*) as cnt FROM issued_certificates WHERE school_id = ? AND type = 'tc'", [$schoolId])['cnt'] ?? 0;
+        $bonafideCount = Database::fetch("SELECT COUNT(*) as cnt FROM issued_certificates WHERE school_id = ? AND type = 'bonafide'", [$schoolId])['cnt'] ?? 0;
 
         $stats = [
             'total_issued' => count($issued),
