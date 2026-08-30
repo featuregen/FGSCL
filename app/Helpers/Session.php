@@ -214,8 +214,9 @@ class Session
      */
     public static function hasPermission(string $permission): bool
     {
-        // Super admin has all permissions
-        if (self::userRole() === ROLE_SUPER_ADMIN) {
+        // Super admin and School admin bypass role permissions
+        $role = self::userRole();
+        if ($role === ROLE_SUPER_ADMIN || $role === ROLE_SCHOOL_ADMIN) {
             return true;
         }
         return in_array($permission, self::permissions());
