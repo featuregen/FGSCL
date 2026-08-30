@@ -5,6 +5,10 @@ require_once __DIR__ . '/../app/Helpers/Database.php';
 try {
     $pdo = Database::pdo();
     
+    // Clean up existing data first
+    $pdo->exec("DELETE FROM users WHERE email = 'admin@example.com'");
+    $pdo->exec("DELETE FROM schools WHERE email = 'fg@example.com'");
+
     // 1. Create a school
     $schoolStmt = $pdo->prepare("INSERT INTO schools (name, email, phone, address, is_active) VALUES ('FG Public School', 'fg@example.com', '1234567890', '123 Main St', 1)");
     $schoolStmt->execute();
