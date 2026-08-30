@@ -19,7 +19,7 @@ try {
     
     // Library issues
     try {
-        $pdo->exec("ALTER TABLE library_issues ADD COLUMN issued_by INT NULL DEFAULT NULL AFTER returned_date");
+        $pdo->exec("ALTER TABLE library_issues ADD COLUMN issued_by INT NULL DEFAULT NULL AFTER return_date");
         echo "<p>Added issued_by to library_issues</p>";
     } catch (Exception $e) { echo "<p>Skipped issued_by (might already exist)</p>"; }
 
