@@ -88,6 +88,19 @@ class AuthController
         // Successful login
         $permissions = User::getPermissions($user['id']);
         
+        // Auto-fix missing roles for legacy school_admin accounts
+        if (empty($permissions) && $user['user_type'] === 'school_admin') {
+            $role = Database::fetch("SELECT id FROM roles WHERE slug = 'school_admin'");
+            if ($role) {
+                Database::insert('user_roles', [
+                    'user_id' => $user['id'],
+                    'role_id' => $role['id']
+                ]);
+                // Re-fetch permissions
+                $permissions = User::getPermissions($user['id']);
+            }
+        }
+        
         // Get full user data with school info
         $userData = User::findWithSchool($user['id']);
         
