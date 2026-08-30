@@ -38,13 +38,12 @@ class CertificateController
         // 2. Fetch Issued Certificates History
         $issued = Database::fetchAll(
             "SELECT ic.*, u.full_name as student_name, c.name as class_name, sec.name as section_name,
-                    issuer.full_name as issued_by_name
+                    'Admin' as issued_by_name
              FROM issued_certificates ic
-             JOIN users u ON ic.student_id = u.id
+             JOIN users u ON ic.user_id = u.id
              LEFT JOIN student_details sd ON u.id = sd.user_id
              LEFT JOIN classes c ON sd.class_id = c.id
              LEFT JOIN sections sec ON sd.section_id = sec.id
-             LEFT JOIN users issuer ON ic.created_by = issuer.id
              WHERE ic.school_id = ?
              ORDER BY ic.issue_date DESC, ic.id DESC",
             [$schoolId]

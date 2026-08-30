@@ -44,7 +44,7 @@ class ReportController
         // 3. Stats calculation
         $totalStudents = Database::fetch("SELECT COUNT(*) as cnt FROM users WHERE school_id = ? AND user_type = 'student' AND is_active = 1", [$schoolId])['cnt'] ?? 0;
         $totalStaff = Database::fetch("SELECT COUNT(*) as cnt FROM users WHERE school_id = ? AND user_type IN ('staff', 'teacher') AND is_active = 1", [$schoolId])['cnt'] ?? 0;
-        $totalCollected = Database::fetch("SELECT COALESCE(SUM(amount_paid), 0) as total FROM fee_payments WHERE school_id = ?", [$schoolId])['total'] ?? 0;
+        $totalCollected = Database::fetch("SELECT COALESCE(SUM(net_amount), 0) as total FROM fee_payments WHERE school_id = ?", [$schoolId])['total'] ?? 0;
 
         $stats = [
             'total_students'  => $totalStudents,
@@ -55,7 +55,7 @@ class ReportController
 
         // 4. Financial breakdown by payment mode
         $paymentModes = Database::fetchAll(
-            "SELECT payment_mode, COUNT(*) as txn_count, SUM(amount_paid) as total_amount 
+            "SELECT payment_mode, COUNT(*) as txn_count, SUM(net_amount) as total_amount 
              FROM fee_payments 
              WHERE school_id = ? 
              GROUP BY payment_mode",
