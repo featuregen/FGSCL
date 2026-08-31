@@ -35,7 +35,7 @@ if (Session::userRole() === ROLE_SUPER_ADMIN) {
 }
 
 // School-level menus
-if (in_array(Session::userRole(), [ROLE_SUPER_ADMIN, ROLE_SCHOOL_ADMIN, ROLE_PRINCIPAL, ROLE_TEACHER, ROLE_ACCOUNTANT, ROLE_LIBRARIAN, ROLE_TRANSPORT_MANAGER, ROLE_STAFF])) {
+if ($schoolId && in_array(Session::userRole(), [ROLE_SUPER_ADMIN, ROLE_SCHOOL_ADMIN, ROLE_PRINCIPAL, ROLE_TEACHER, ROLE_ACCOUNTANT, ROLE_LIBRARIAN, ROLE_TRANSPORT_MANAGER, ROLE_STAFF])) {
     // Setup
     if ((Session::hasPermission('school_setup.view') || Session::hasPermission('academic.view')) && ModuleService::isEnabled($schoolId, 'settings')) {
         $navigation[] = [
